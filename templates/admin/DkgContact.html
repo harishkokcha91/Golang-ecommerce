@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="au theme template" name="description">
+    <meta content="Hau Nguyen" name="author">
+    <meta content="au theme template" name="keywords">
+
+    <!-- Title Page-->
+    <title>Tables</title>
+
+    <!-- Fontfaces CSS-->
+    <link href="../../htmlSupport/css/font-face.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/font-awesome-4.7/css/font-awesome.min.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/font-awesome-5/css/fontawesome-all.min.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/mdi-font/css/material-design-iconic-font.min.css" media="all" rel="stylesheet">
+
+    <!-- Bootstrap CSS-->
+    <link href="../../htmlSupport/vendor/bootstrap-4.1/bootstrap.min.css" media="all" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="../../htmlSupport/vendor/animsition/animsition.min.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/bootstrap-progressbar/bootstrap-progressbar-3.3.4.min.css" media="all"
+          rel="stylesheet">
+    <link href="../../htmlSupport/vendor/wow/animate.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/css-hamburgers/hamburgers.min.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/slick/slick.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/select2/select2.min.css" media="all" rel="stylesheet">
+    <link href="../../htmlSupport/vendor/perfect-scrollbar/perfect-scrollbar.css" media="all" rel="stylesheet">
+
+    <!-- Main CSS-->
+    <link href="../../htmlSupport/css/theme.css" media="all" rel="stylesheet">
+
+</head>
+
+<body class="animsition">
+<div class="page-wrapper">
+    <!-- HEADER MOBILE-->
+    {{ template "DkgHeader.html" .}}
+    <!-- END HEADER MOBILE-->
+
+    <!-- MENU SIDEBAR-->
+    <aside class="menu-sidebar d-none d-lg-block">
+        <div class="logo">
+            <a href="#">
+                <img alt="Cool Admin" src="../../htmlSupport/images/icon/logo.png"/>
+            </a>
+        </div>
+        <div class="menu-sidebar__content js-scrollbar1">
+            <nav class="navbar-sidebar">
+                <ul class="list-unstyled navbar__list">
+
+                    <li class="active">
+                        <a href="table.html">
+                            <i class="fas fa-table"></i>Contact</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <!-- END MENU SIDEBAR-->
+    {{ template "DkgHeader.html" .}}
+
+
+    <!-- PAGE CONTAINER-->
+    <div class="page-container">
+        <!-- MAIN CONTENT-->
+        <div class="main-content">
+            <div class="section__content section__content--p30">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- DATA TABLE -->
+                            <h3 class="title-5 m-b-35">data table</h3>
+                            <div class="table-data__tool">
+                                <div class="table-data__tool-left">
+                                    <div class="rs-select2--light rs-select2--md">
+                                        <select class="js-select2" name="property">
+                                            <option selected="selected">All Properties</option>
+                                            <option value="">Option 1</option>
+                                            <option value="">Option 2</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                    <div class="rs-select2--light rs-select2--sm">
+                                        <select class="js-select2" name="time">
+                                            <option selected="selected">Today</option>
+                                            <option value="">3 Days</option>
+                                            <option value="">1 Week</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                    <button class="au-btn-filter">
+                                        <i class="zmdi zmdi-filter-list"></i>filters
+                                    </button>
+                                </div>
+                                <div class="table-data__tool-right">
+                                    <a href="form">
+                                        <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                            <i class="zmdi zmdi-plus"></i>add item
+                                        </button>
+                                    </a>
+                                    <div class="rs-select2--dark rs-select2--sm rs-select2--dark2">
+                                        <select class="js-select2" name="type">
+                                            <option selected="selected">Export</option>
+                                            <option value="">Option 1</option>
+                                            <option value="">Option 2</option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-responsive table-responsive-data2">
+                                <table class="table table-data2">
+                                    <thead>
+                                    <tr>
+                                        <th>
+                                            <label class="au-checkbox">
+                                                <input type="checkbox">
+                                                <span class="au-checkmark"></span>
+                                            </label>
+                                        </th>
+                                        <th>name</th>
+                                        <th>Email</th>
+                                        <th>Message</th>
+                                        <th>status</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {{range .List}}
+                                    <tr class="tr-shadow">
+                                        <td>
+                                            <label class="au-checkbox">
+                                                <input type="checkbox">
+                                                <span class="au-checkmark"></span>
+                                            </label>
+                                        </td>
+                                        <td>{{.Name}}</td>
+                                        <td>
+                                            <span class="block-email">{{.Email}}</span>
+                                        </td>
+                                        <td class="desc">{{.Message}}</td>
+                                        <td>Processed</td>
+                                        <td>
+                                            <div class="table-data-feature">
+                                                <button class="item" data-placement="top" data-toggle="tooltip"
+                                                        title="Send">
+                                                    <i class="zmdi zmdi-mail-send"></i>
+                                                </button>
+                                                <button class="item" data-placement="top" data-toggle="tooltip"
+                                                        title="Edit">
+                                                    <i class="zmdi zmdi-edit"></i>
+                                                </button>
+                                                <button class="item" data-placement="top" data-toggle="tooltip"
+                                                        title="Delete">
+                                                    <i class="zmdi zmdi-delete"></i>
+                                                </button>
+                                                <button class="item" data-placement="top" data-toggle="tooltip"
+                                                        title="More">
+                                                    <i class="zmdi zmdi-more"></i>
+                                                </button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="spacer"></tr>
+                                    {{end}}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- END DATA TABLE -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="copyright">
+                                <p>Copyright © 2018 Colorlib. All rights reserved. Template by <a
+                                        href="https://colorlib.com">Colorlib</a>.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Jquery JS-->
+<script src="../../htmlSupport/vendor/jquery-3.2.1.min.js"></script>
+<!-- Bootstrap JS-->
+<script src="../../htmlSupport/vendor/bootstrap-4.1/popper.min.js"></script>
+<script src="../../htmlSupport/vendor/bootstrap-4.1/bootstrap.min.js"></script>
+<!-- Vendor JS       -->
+<script src="../../htmlSupport/vendor/slick/slick.min.js">
+</script>
+<script src="../../htmlSupport/vendor/wow/wow.min.js"></script>
+<script src="../../htmlSupport/vendor/animsition/animsition.min.js"></script>
+<script src="../../htmlSupport/vendor/bootstrap-progressbar/bootstrap-progressbar.min.js">
+</script>
+<script src="../../htmlSupport/vendor/counter-up/jquery.waypoints.min.js"></script>
+<script src="../../htmlSupport/vendor/counter-up/jquery.counterup.min.js">
+</script>
+<script src="../../htmlSupport/vendor/circle-progress/circle-progress.min.js"></script>
+<script src="../../htmlSupport/vendor/perfect-scrollbar/perfect-scrollbar.js"></script>
+<script src="../../htmlSupport/vendor/chartjs/Chart.bundle.min.js"></script>
+<script src="../../htmlSupport/vendor/select2/select2.min.js">
+</script>
+
+<!-- Main JS-->
+<script src="../../htmlSupport/js/main.js"></script>
+
+</body>
+
+</html>
+<!-- end document-->
