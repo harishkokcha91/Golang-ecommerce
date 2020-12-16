@@ -4,7 +4,7 @@ import (
 	"../utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"log"
+	log "log"
 )
 
 type Contact struct {
@@ -71,6 +71,15 @@ func InsertNewContact(c *gin.Context) bool {
 	var querySql = "Insert into test.contact(name,email,desc) values" +
 		" ('" + name + "','" + email + "','" + message + "')"
 	fmt.Println(querySql + " querySql")
+
+	var completeMsg = "Hello a new customer " + name + " his email is" + email + " message is :" + message + "wants to connect you"
+
+	var emailsList = []string{email}
+	sent, error := SendEmail(completeMsg, emailsList)
+	fmt.Println("sent")
+	fmt.Println(sent)
+
+	fmt.Println(error)
 
 	var queryPreParedStatement = "Insert into test.contact(c_name,c_email,c_desc) values(?,?,?)"
 	_, err := utils.DbConn().Query(queryPreParedStatement, name, email, message)
