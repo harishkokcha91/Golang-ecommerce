@@ -1,7 +1,7 @@
 package models
 
 import (
-	"../utils"
+	"gosample/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -15,7 +15,7 @@ type Product struct {
 	ProductImage           string `json:"product_image"`
 	ProductPrice           string `json:"product_price"`
 	ProductDiscountedPrice string `json:"product_discounted_price"`
-	ProductLink             string `json:"product_buy_link"`
+	ProductLink            string `json:"product_buy_link"`
 }
 
 func FindAllProduct(c *gin.Context) ([]Product, error) {
@@ -54,7 +54,7 @@ func FindSingleProduct(c *gin.Context, id string) (Product, error) {
 	fmt.Println(query)
 	if err == nil {
 		for res.Next() {
-			res.Scan(&product.Id, &product.ProductName, &product.ProductDesc, &product.ProductImage, &product.ProductPrice, &product.ProductDiscountedPrice,&product.ProductLink)
+			res.Scan(&product.Id, &product.ProductName, &product.ProductDesc, &product.ProductImage, &product.ProductPrice, &product.ProductDiscountedPrice, &product.ProductLink)
 			row, err := res.Columns()
 
 			if err != nil {
@@ -88,7 +88,7 @@ func InsertNewProduct(c *gin.Context, fileName string) bool {
 	fmt.Println(querySql + " querySql")
 
 	var queryPreParedStatement = "Insert into test.product(product_name,product_desc,product_price,product_discounted_price,product_image,product_buy_link) values(?,?,?,?,?,?)"
-	_, err := utils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName,link)
+	_, err := utils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
 	if err == nil {
 		return true
 	} else {

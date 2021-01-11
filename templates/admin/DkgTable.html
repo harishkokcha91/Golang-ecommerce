@@ -114,7 +114,7 @@
                                 </div>
                             </div>
                             <div class="table-responsive table-responsive-data2">
-                                <table class="table table-data2">
+                                <table width="100%" class="table table-data2">
                                     <thead>
                                     <tr>
                                         <th>
@@ -124,8 +124,8 @@
                                             </label>
                                         </th>
                                         <th>name</th>
-                                        <th>image</th>
-                                        <th>description</th>
+                                        <th width="100" style="overflow:auto;">image</th>
+                                        <th width="100">description</th>
                                         <th>price</th>
                                         <th>discounted price</th>
                                         <th>status</th>
@@ -142,10 +142,10 @@
                                             </label>
                                         </td>
                                         <td>{{.ProductName}}</td>
-                                        <td>
-                                            <span class="block-email">{{.ProductImage}}</span>
+                                        <td width="100" style="overflow:auto;">
+                                            <span class="block-email" style="white-space:pre-line;overflow:auto;">{{.ProductImage}}</span>
                                         </td>
-                                        <td class="desc">{{.ProductDesc}}</td>
+                                        <td class="desc" width="100">{{.ProductDesc}}</td>
                                         <td>{{.ProductPrice}}</td>
                                         <td>
                                             <span class="status--process">{{.ProductDiscountedPrice}}</span>
