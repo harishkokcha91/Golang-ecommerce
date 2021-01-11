@@ -3,18 +3,20 @@
 package main
 
 import (
-	"./models"
-	"./utils"
-	"github.com/go-session/gin-session"
 	"io/ioutil"
 	"math/rand"
 
+	"gosample/models"
+	"gosample/utils"
+	ginsession "github.com/go-session/gin-session"
+
 	//"database/sql"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	_ "github.com/go-sql-driver/mysql"
 	"log"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var router *gin.Engine

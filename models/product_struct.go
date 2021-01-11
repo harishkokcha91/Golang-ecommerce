@@ -1,7 +1,7 @@
 package models
 
 import (
-	"../utils"
+	"gosample/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
