@@ -1,11 +1,12 @@
 package models
 
 import (
-	"gosample/utils"
 	"fmt"
-	"github.com/gin-gonic/gin"
+	"gosample/utils"
 	"log"
 	"strings"
+
+	"github.com/gin-gonic/gin"
 )
 
 type Product struct {
@@ -23,6 +24,7 @@ func FindAllProduct(c *gin.Context) ([]Product, error) {
 	var productList []Product
 	res, err := utils.DbConn().Query("select * from test.product")
 
+	fmt.Printf("res ", res)
 	if err == nil {
 		for res.Next() {
 			res.Scan(&product.Id, &product.ProductName, &product.ProductDesc, &product.ProductImage, &product.ProductPrice, &product.ProductDiscountedPrice, &product.ProductLink)
