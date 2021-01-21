@@ -99,6 +99,24 @@ func main() {
 			}
 		}
 	})
+
+	router.POST("/productEdit", func(context *gin.Context) {
+		fmt.Println(context.HandlerNames())
+		var userName = context.PostForm("productName")
+		var fileName = uploadFile(context)
+
+		if len(userName) > 0 {
+			if models.InsertNewProduct(context, fileName) {
+				var productList, _ = models.FindAllProduct(context)
+				fmt.Println(productList)
+				fmt.Println("Harish")
+				context.HTML(http.StatusOK, "DkgTable.html", gin.H{
+					"List": productList,
+				},
+				)
+			}
+		}
+	})
 	router.GET("/productList", func(context *gin.Context) {
 		if checkIsUserLogined(context) {
 			var productList, _ = models.FindAllProduct(context)
@@ -127,6 +145,38 @@ func main() {
 				"Hello": "world",
 			},
 			)
+		}
+	})
+
+	router.GET("/product/:id", func(context *gin.Context) {
+		var productID = context.Param("id")
+		fmt.Println(productID + " product")
+		if checkIsUserLogined(context) {
+			fmt.Println(productID + " user is logged in ")
+			var product, _ = models.FindSingleProduct(context, productID)
+			fmt.Println(product)
+			fmt.Println("Harish ")
+			context.HTML(http.StatusOK, "DkgForm.html", gin.H{
+				"product": product,
+			},
+			)
+
+		}
+	})
+
+	router.GET("/delete/:id", func(context *gin.Context) {
+		var productID = context.Param("id")
+		fmt.Println(productID + " product")
+		if checkIsUserLogined(context) {
+			fmt.Println(productID + " user is logged in ")
+			var product = models.DeleteProduct(context, productID)
+			fmt.Println(product)
+			fmt.Println("Harish ")
+			context.HTML(http.StatusOK, "DkgTable.html", gin.H{
+				"product": product,
+			},
+			)
+
 		}
 	})
 
@@ -191,8 +241,8 @@ func main() {
 
 func checkIsUserLogined(context *gin.Context) bool {
 	store := ginsession.FromContext(context)
-	userId, ok := store.Get("userId")
-	fmt.Println(userId)
+	userID, ok := store.Get("userId")
+	fmt.Println(userID)
 	fmt.Println(" dsffd ")
 	if !ok {
 		context.AbortWithStatus(404)
