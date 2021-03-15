@@ -1,9 +1,9 @@
 package models
 
 import (
-	"gosample/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"gosample/dbUtils"
 	log "log"
 )
 
@@ -18,7 +18,7 @@ type Contact struct {
 func FindAllContact(c *gin.Context) ([]Contact, error) {
 	var product Contact
 	var productList []Contact
-	res, err := utils.DbConn().Query("select * from test.contact")
+	res, err := dbUtils.DbConn().Query("select * from test.contact")
 
 	if err == nil {
 		for res.Next() {
@@ -43,7 +43,7 @@ func FindAllContact(c *gin.Context) ([]Contact, error) {
 func FindSingleContact(c *gin.Context, id string) (Contact, error) {
 	var product Contact
 	var query = "Select id,c_name,c_email,c_desc from test.contact where id=" + id
-	res, err := utils.DbConn().Query(query)
+	res, err := dbUtils.DbConn().Query(query)
 	fmt.Println(query)
 	if err == nil {
 		for res.Next() {
@@ -82,7 +82,7 @@ func InsertNewContact(c *gin.Context) bool {
 	fmt.Println(error)
 
 	var queryPreParedStatement = "Insert into test.contact(c_name,c_email,c_desc) values(?,?,?)"
-	_, err := utils.DbConn().Query(queryPreParedStatement, name, email, message)
+	_, err := dbUtils.DbConn().Query(queryPreParedStatement, name, email, message)
 	if err == nil {
 		return true
 	} else {

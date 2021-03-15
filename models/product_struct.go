@@ -2,7 +2,7 @@ package models
 
 import (
 	"fmt"
-	"gosample/utils"
+	"gosample/dbUtils"
 	"log"
 	"strings"
 
@@ -23,7 +23,7 @@ type Product struct {
 func FindAllProduct(c *gin.Context) ([]Product, error) {
 	var product Product
 	var productList []Product
-	res, err := utils.DbConn().Query("select * from test.product")
+	res, err := dbUtils.DbConn().Query("select * from test.product")
 
 	fmt.Printf("res ", res)
 	if err == nil {
@@ -53,7 +53,7 @@ func FindAllProduct(c *gin.Context) ([]Product, error) {
 func FindSingleProduct(c *gin.Context, id string) (Product, error) {
 	var product Product
 	var query = "Select id,product_name,product_desc,product_image,product_price,product_discounted_price,product_buy_link from test.product where id=" + id
-	res, err := utils.DbConn().Query(query)
+	res, err := dbUtils.DbConn().Query(query)
 	fmt.Println(query)
 	if err == nil {
 		for res.Next() {
@@ -91,7 +91,7 @@ func InsertNewProduct(c *gin.Context, fileName string) bool {
 	fmt.Println(querySql + " querySql")
 
 	var queryPreParedStatement = "Insert into test.product(product_name,product_desc,product_price,product_discounted_price,product_image,product_buy_link) values(?,?,?,?,?,?)"
-	_, err := utils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
+	_, err := dbUtils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
 	if err == nil {
 		return true
 	} else {
@@ -112,7 +112,7 @@ func EditProduct(c *gin.Context, fileName string) bool {
 	fmt.Println(querySql + " querySql")
 
 	var queryPreParedStatement = "Insert into test.product(product_name,product_desc,product_price,product_discounted_price,product_image,product_buy_link) values(?,?,?,?,?,?)"
-	_, err := utils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
+	_, err := dbUtils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
 	if err == nil {
 		return true
 	} else {
@@ -125,7 +125,7 @@ func DeleteProduct(c *gin.Context, productID string) bool {
 	var querySQL = "Update test.product set product_status = 0 where id=" + productID
 	fmt.Println(querySQL + " querySql")
 
-	_, err := utils.DbConn().Query(querySQL)
+	_, err := dbUtils.DbConn().Query(querySQL)
 	if err == nil {
 		return true
 	}

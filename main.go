@@ -3,6 +3,7 @@
 package main
 
 import (
+	"gosample/dbUtils"
 	"io/ioutil"
 	"math/rand"
 
@@ -33,6 +34,17 @@ func main() {
 	// from the disk again. This makes serving HTML pages very fast.
 	router.LoadHTMLGlob("templates/**/*")
 	router.Static("htmlSupport", "htmlSupport")
+	api := router.Group("/api")
+	api.GET("/hello", func(context *gin.Context) {
+		context.JSON(http.StatusOK, gin.H{
+			"List":  "productList",
+			"title": "Home",
+		},
+		)
+	})
+
+	utils.GetGinGroupRouter(router)
+
 
 	router.GET("/home", func(context *gin.Context) {
 		var productList, _ = models.FindAllProduct(context)
@@ -55,7 +67,6 @@ func main() {
 		)
 	})
 	router.GET("/contact", func(context *gin.Context) {
-
 		context.HTML(http.StatusOK, "contact.html", gin.H{
 			"Hello": "world",
 			"title": "Contact",
@@ -79,7 +90,6 @@ func main() {
 			},
 			)
 		}
-
 	})
 
 	router.POST("/productInsert", func(context *gin.Context) {
@@ -118,7 +128,7 @@ func main() {
 		}
 	})
 	router.GET("/productList", func(context *gin.Context) {
-		if checkIsUserLogined(context) {
+		if checkIsUserLoggedIN(context) {
 			var productList, _ = models.FindAllProduct(context)
 			fmt.Println(productList)
 			fmt.Println("Harish")
@@ -129,7 +139,7 @@ func main() {
 		}
 	})
 	router.GET("/contactList", func(context *gin.Context) {
-		if checkIsUserLogined(context) {
+		if checkIsUserLoggedIN(context) {
 			var productList, _ = models.FindAllContact(context)
 			fmt.Println(productList)
 			fmt.Println("Harish")
@@ -140,7 +150,7 @@ func main() {
 		}
 	})
 	router.GET("/form", func(context *gin.Context) {
-		if checkIsUserLogined(context) {
+		if checkIsUserLoggedIN(context) {
 			context.HTML(http.StatusOK, "DkgForm.html", gin.H{
 				"Hello": "world",
 			},
@@ -151,7 +161,7 @@ func main() {
 	router.GET("/product/:id", func(context *gin.Context) {
 		var productID = context.Param("id")
 		fmt.Println(productID + " product")
-		if checkIsUserLogined(context) {
+		if checkIsUserLoggedIN(context) {
 			fmt.Println(productID + " user is logged in ")
 			var product, _ = models.FindSingleProduct(context, productID)
 			fmt.Println(product)
@@ -167,7 +177,7 @@ func main() {
 	router.GET("/delete/:id", func(context *gin.Context) {
 		var productID = context.Param("id")
 		fmt.Println(productID + " product")
-		if checkIsUserLogined(context) {
+		if checkIsUserLoggedIN(context) {
 			fmt.Println(productID + " user is logged in ")
 			var product = models.DeleteProduct(context, productID)
 			fmt.Println(product)
@@ -239,7 +249,7 @@ func main() {
 
 }
 
-func checkIsUserLogined(context *gin.Context) bool {
+func checkIsUserLoggedIN(context *gin.Context) bool {
 	store := ginsession.FromContext(context)
 	userID, ok := store.Get("userId")
 	fmt.Println(userID)
@@ -294,12 +304,12 @@ func uploadFile(context *gin.Context) string {
 	// write this byte array to our temporary file
 	tempFile.Write(fileBytes)
 	// return that we have successfully uploaded our file!
-	fmt.Println("Successfully Uploaded File\n")
+	fmt.Println("Successfully Uploaded File")
 	return fileNameSaved
 }
 
 func FindById(id int64) {
-	db := utils.DbConn()
+	db := dbUtils.DbConn()
 	defer db.Close()
 
 	query := "SELECT * FROM test.user"
