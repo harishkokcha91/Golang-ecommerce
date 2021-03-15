@@ -1,9 +1,9 @@
 package models
 
 import (
-	"gosample/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"gosample/dbUtils"
 	"log"
 )
 
@@ -15,7 +15,7 @@ type User struct {
 
 func FindAllUser(c *gin.Context) {
 	var user User
-	res, err := utils.DbConn().Query("select * from test.user")
+	res, err := dbUtils.DbConn().Query("select * from test.user")
 
 	if err == nil {
 		for res.Next() {
@@ -42,7 +42,7 @@ func FindUser(c *gin.Context) int {
 	fmt.Print(name + " " + password)
 	var user User
 	var querySql = "select * from test.user where user_name='" + name + "' and user_pass='" + password + "'"
-	res, err := utils.DbConn().Query(querySql)
+	res, err := dbUtils.DbConn().Query(querySql)
 
 	if err == nil {
 		for res.Next() {
@@ -73,7 +73,7 @@ func CreateNewUser(c *gin.Context) bool {
 
 	var querySql = "Insert into test.user(user_name,user_pass) values ('" + name + "','" + password + "')"
 	fmt.Println(querySql + "querySql")
-	_, err := utils.DbConn().Query(querySql)
+	_, err := dbUtils.DbConn().Query(querySql)
 	if err == nil {
 		return true
 	} else {

@@ -2,7 +2,7 @@ package models
 
 import (
 	"fmt"
-	"gosample/utils"
+	"gosample/dbUtils"
 	"log"
 	"strings"
 
@@ -17,17 +17,18 @@ type Product struct {
 	ProductPrice           string `json:"product_price"`
 	ProductDiscountedPrice string `json:"product_discounted_price"`
 	ProductLink            string `json:"product_buy_link"`
+	ProductStatus          string `json:"product_status"`
 }
 
 func FindAllProduct(c *gin.Context) ([]Product, error) {
 	var product Product
 	var productList []Product
-	res, err := utils.DbConn().Query("select * from test.product")
+	res, err := dbUtils.DbConn().Query("select * from test.product")
 
 	fmt.Printf("res ", res)
 	if err == nil {
 		for res.Next() {
-			res.Scan(&product.Id, &product.ProductName, &product.ProductDesc, &product.ProductImage, &product.ProductPrice, &product.ProductDiscountedPrice, &product.ProductLink)
+			res.Scan(&product.Id, &product.ProductName, &product.ProductDesc, &product.ProductImage, &product.ProductPrice, &product.ProductDiscountedPrice, &product.ProductLink, &product.ProductStatus)
 			row, err := res.Columns()
 
 			if err != nil {
@@ -52,7 +53,7 @@ func FindAllProduct(c *gin.Context) ([]Product, error) {
 func FindSingleProduct(c *gin.Context, id string) (Product, error) {
 	var product Product
 	var query = "Select id,product_name,product_desc,product_image,product_price,product_discounted_price,product_buy_link from test.product where id=" + id
-	res, err := utils.DbConn().Query(query)
+	res, err := dbUtils.DbConn().Query(query)
 	fmt.Println(query)
 	if err == nil {
 		for res.Next() {
@@ -90,12 +91,46 @@ func InsertNewProduct(c *gin.Context, fileName string) bool {
 	fmt.Println(querySql + " querySql")
 
 	var queryPreParedStatement = "Insert into test.product(product_name,product_desc,product_price,product_discounted_price,product_image,product_buy_link) values(?,?,?,?,?,?)"
-	_, err := utils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
+	_, err := dbUtils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
 	if err == nil {
 		return true
 	} else {
 		fmt.Print(err)
 		return false
 	}
+}
+
+func EditProduct(c *gin.Context, fileName string) bool {
+	name := c.PostForm("productName")
+	price := c.PostForm("productPrice")
+	desc := c.PostForm("productDesc")
+	link := c.PostForm("productLink")
+	productDiscountPrice := c.PostForm("productDiscountPrice")
+
+	var querySql = "Update test.product set product_name = ,product_desc,product_price,product_discounted_price,product_image) values" +
+		" ('" + name + "','" + desc + "','" + price + "','" + productDiscountPrice + "','" + fileName + "')"
+	fmt.Println(querySql + " querySql")
+
+	var queryPreParedStatement = "Insert into test.product(product_name,product_desc,product_price,product_discounted_price,product_image,product_buy_link) values(?,?,?,?,?,?)"
+	_, err := dbUtils.DbConn().Query(queryPreParedStatement, name, desc, price, productDiscountPrice, fileName, link)
+	if err == nil {
+		return true
+	} else {
+		fmt.Print(err)
+		return false
+	}
+}
+
+func DeleteProduct(c *gin.Context, productID string) bool {
+	var querySQL = "Update test.product set product_status = 0 where id=" + productID
+	fmt.Println(querySQL + " querySql")
+
+	_, err := dbUtils.DbConn().Query(querySQL)
+	if err == nil {
+		return true
+	}
+
+	fmt.Print(err)
 	return false
+
 }
